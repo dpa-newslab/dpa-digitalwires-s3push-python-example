@@ -1,0 +1,25 @@
+{
+  "name": "dpa-s3push-python-example",
+  "version": "1.0.0",
+  "description": "A basic example of how to integrate s3push via serverless into a customer's AWS account.",
+  "author": "dpa-IT Services GmbH",
+  "license": "Apache-2.0",
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "scripts": {
+    "s3push-deploy": "serverless deploy --stage dev && serverless info --verbose",
+    "s3push-remove": "serverless remove",
+    "clear-cache": "serverless requirements cleanCache",
+    "sls-info": "serverless info --verbose",
+    "sls-print": "serverless print --stage dev"
+  },
+  "devDependencies": {
+    "osls": "^3.62.1",
+    "serverless-python-requirements": "^6.1.1",
+    "glob": "^13.0.6"
+  }
+}
