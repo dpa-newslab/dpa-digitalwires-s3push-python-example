@@ -1,18 +1,13 @@
 # Import dpa-digitalwires via s3push-API
 
-This example demonstrates how to receive dpa-digitalwires content via the s3push API
-using AWS Lambda. The Lambda function processes incoming articles and can optionally
-download associated assets (images, videos, etc.) and convert the content to IPTC7901 or
-NewsML-G2 format.
+This example demonstrates how to receive dpa-digitalwires content via the s3push-API using AWS Lambda. The Lambda function processes incoming articles. It is possible to optionally download associated assets (images, videos, etc.) and convert the content to IPTC7901 or to NewsML-G2 format.
 
 ## Prerequisites
 
-- Python 3.x
+- Python 3.14
 - Node.js and npm
-- [serverless Framework V3](https://github.com/serverless/serverless/tree/v3.40.0)
-  or [oss-serverless](https://github.com/oss-serverless/serverless)
-- [AWS CLI](https://docs.aws.amazon.com/de_de/cli/v1/userguide/cli-chap-configure.html) configured with valid
-  credentials
+- [serverless Framework V3](https://github.com/serverless/serverless/tree/v3.40.0) or [oss-serverless](https://github.com/oss-serverless/serverless)
+- [AWS CLI](https://docs.aws.amazon.com/de_de/cli/v1/userguide/cli-chap-configure.html) configured with valid credentials
 
 ## Quickstart
 
@@ -28,11 +23,10 @@ npm run s3push-deploy
 
 The setup creates the following AWS resources:
 
-1. **S3 Bucket** - Receives incoming dpa-digitalwires content
-2. **SNS Topic** - Notified when new digitalwires-`.json` files arrive in S3
-3. **SQS Queue** - Receives messages from SNS. Enables retries and redirection to a dead letter queue after multiple
-   failures.
-4. **Lambda Function** - Triggered by SQS to process incoming articles
+1. **S3 Bucket** - Receives incoming dpa-digitalwires content.
+2. **SNS Topic** - Notifies, when new dpa-digitalwires JSON files arrive in S3.
+3. **SQS Queue** - Receives messages from SNS topic. Enables retries and redirects to a dead letter queue after multiple failures.
+4. **Lambda Function** - Triggered by SQS to process incoming articles.
 
 ## Environment Variables
 
@@ -71,7 +65,7 @@ Configure the Lambda function behavior:
 | `CONVERT_TO_IPTC`     | `false` | Convert entries to IPTC7901 format and save as `.iptc` files                |
 | `CONVERT_TO_NEWSMLG2` | `false` | Convert entries to NewsML-G2 XML format and save as `.xml` files            |
 
-After changing any configuration, redeploy the stack:
+After changing the configurations to your needs, deploy the stack again:
 
 ```shell
 npm run s3push-deploy
@@ -91,9 +85,7 @@ Processed files are written to the `S3_PREFIX_OUT` path in S3 with the following
     ...
 ```
 
-The `{original_filename}` is the filename of the incoming JSON file (e.g., `dpa-123456.json`).
-Each article is stored in its own folder containing the original JSON, any converted formats,
-and downloaded assets.
+The `{original_filename}` is the filename of the incoming JSON file (e.g., `dpa-123456.json`). Each article is stored in its own folder containing the original JSON file, any converted formats and all downloaded assets associated with that article.
 
 ## Deployment
 
@@ -106,16 +98,22 @@ npm run s3push-deploy
 If the installation was successful, the following output appears:
 
 ```shell
-Stack Outputs
+Stack Outputs:
+...
 S3PushDeliveryQueueUrl: https://sqs.eu-central-1.amazonaws.com/{accountId}/{qs_name}]
-S3PushSecretAccessKey: xxxx
 S3PushUrlPrefix: s3://{s3_bucket_name}/{s3_prefix}
 S3PushAccessKeyId: AKIAIxxxxx
+S3PushSecretAccessKey: xxxx
 ...
 ```
 
-To set up the delivery, please configure the API in the customer portal of dpa-infocom
-GmbH (https://api-portal.dpa-newslab.com/api/s3push).
+To set up the delivery, please configure the s3push-API in the (dpa API-Portal)[https://api-portal.dpa-newslab.com] by entering the output for the **S3-URL** including the prefix, the **Access Key ID** and the **Secret Access Key** in the given form.
 
-Please enter the output for S3 URL prefix, Access Key ID und Secret Access Key
-in the given form.
+## Removal
+
+You can remove everything created in this example project via NPM, including the infrastructure configured and deployed in your AWS account.
+
+```shell
+# Start from root directory
+npm run s3push-remove
+```

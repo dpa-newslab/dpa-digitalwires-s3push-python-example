@@ -11,15 +11,15 @@
     }
   ],
   "scripts": {
-    "s3push-deploy": "serverless deploy --stage dev && serverless info --verbose",
+    "s3push-deploy": "serverless deploy && serverless info --verbose",
     "s3push-remove": "serverless remove",
     "clear-cache": "serverless requirements cleanCache",
     "sls-info": "serverless info --verbose",
-    "sls-print": "serverless print --stage dev"
+    "sls-print": "serverless print"
   },
   "devDependencies": {
+    "glob": "^13.0.6",
     "osls": "^3.62.1",
-    "serverless-python-requirements": "^6.1.1",
-    "glob": "^13.0.6"
+    "serverless-python-requirements": "^6.1.1"
   }
 }
